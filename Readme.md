@@ -202,6 +202,7 @@ Job-specific events are fired on the `Job` instances via Redis pubsub. The follo
     - `failed` the job has failed and has no remaining attempts
     - `complete` the job has completed
     - `remove` the job has been removed
+    - `customEvent` the job event from API
 
 
 For example this may look something like the following:
@@ -225,6 +226,14 @@ job.on('complete', function(result){
 }).on('progress', function(progress, data){
   console.log('\r  job #' + job.id + ' ' + progress + '% complete with data ', data );
 
+});
+```
+
+You also can sending event from external with customEvent function,
+```js
+var Job = require('kue').Job;
+var job = Job.get(id, function( err, job ) {
+    job.customEvent('{"key1": "data1"}');
 });
 ```
 
@@ -734,6 +743,17 @@ Get job `:id`'s log:
 ```js
 ['foo', 'bar', 'baz']
 ```
+
+### POST /job/:id/customevent
+
+Create a job:
+
+    $ curl -H "Content-Type: application/json" -X POST -d \
+        '{
+           "key1": "data1",
+           "key2": "data22",
+         }' http://localhost:3000/job/1/customevent
+    {"message": "sent to job 1"}
 
 ### GET /jobs/:from..:to/:order?
 
