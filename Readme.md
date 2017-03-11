@@ -22,7 +22,7 @@ Kue is a priority job queue backed by [redis](http://redis.io), built for [node.
 
   - Latest release:
 
-        $ npm install kue
+        $ npm install kue-renew
 
   - Master branch:
 
